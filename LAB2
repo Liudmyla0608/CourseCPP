@@ -31,7 +31,7 @@ int main (){
             }
             
             
-    cout << "matrix in it nature";
+    cout << "matrix in its nature: ";
     
     for(int i = 0; i < n; i++)
         {
