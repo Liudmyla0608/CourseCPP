@@ -1,3 +1,5 @@
+//Перевірити, чи є задана матриця ортогональною
+
 #include <iostream>
 using namespace std;
 
