@@ -82,7 +82,7 @@ void determineOrthogonal() {
     Mas[i] = MatrixC[i][i];
     for (int j = 0; j < m; j++) {
       if (MatrixC[i][j] != 0 && MatrixC[i][j] !=  1) {
-        Result[i] = 8; //1 = matrix is not orthogonal
+        Result[i] = 8; //8 = matrix is not orthogonal
       }
 
     }
@@ -91,7 +91,7 @@ void determineOrthogonal() {
   //if the lateral diagonal is not one, it is not orthogonal
   for (int i = 0; i < n; i++) {
     if (Mas[i] != 1) {
-      Result[i] = 8; //1 = matrix is not orthogonal
+      Result[i] = 8; //8 = matrix is not orthogonal
     }
   }
 
