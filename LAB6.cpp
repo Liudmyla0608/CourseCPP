@@ -191,7 +191,7 @@ int main()
 	int ** newMat = create(n, m);
 
 	filling(mat, n, m);
-    writeData(mat, n, m);
+    	writeData(mat, n, m);
 	printMatrix(mat, n, m);
 
 	newElementsMatrix(mat, n, m, massife);
