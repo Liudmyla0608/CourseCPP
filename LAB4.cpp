@@ -48,7 +48,7 @@ int main()
     
     for (int i = 0; i < n; i++, cout << endl)
     {
-        cout << list[i].Name.FirstName << "\t" << list[i].Name.SurName << "\t" << list[i].Name.SecondName << "\t" << list[i].Brand << "\t" << list[i].Power << "\t" << list[i].Number;
+        cout << (prt + i)->Name.FirstName << "\t" << list[i].Name.SurName << "\t" << list[i].Name.SecondName << "\t" << list[i].Brand << "\t" << list[i].Power << "\t" << list[i].Number;
     }
     
     for(int i = 0; i < n - 1; i++)
