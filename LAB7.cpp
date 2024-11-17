@@ -56,45 +56,52 @@ void maxInModule(int * massife, int n)
 
 void sumOfElements(int * massife, int n)
 {
-    cout << "sum of numbers between first and last elements of massife: " << endl;
-    
-    //define first and second positive numbers
-    //with cicle define the sum of that numbers
-    
-    int fPN = -1;
-    int lPN = -1;
-    
+    cout << "sum of numbers between first and last plus elements of massife: " << endl;
     int sum = 0;
+    int firstEdge = -1;
+    int secondEdge = -1;
     
-    for(int i = 0; i < n; ++i)
-    {
-        if(massife[i] > 0 && fPN == -1)
-        {
-            fPN = i;
+    //determine the edges
+    for (int i = 0; i < n; i++) {
+        if (massife[i] > 0) {
+            if (firstEdge == -1) {
+                firstEdge = i;
+            } else if (secondEdge == -1) {
+                secondEdge = i;
+                break;
+            }
         }
-        else if (massife[i] > 0 && lPN == -1)
-        {
-            lPN = i;
-        }
- 
     }
-    
-    if (fPN != -1 && lPN != -1 && fPN != lPN)
-    {
-        for(int i = fPN + 1; i < lPN; ++i)
-        {
+
+    if (firstEdge == -1 || secondEdge == -1) {
+        cout << "Not enough positive numbers to perform sum calculation." << endl;
+    } else {
+        for (int i = firstEdge + 1; i < secondEdge; i++) {
             sum += massife[i];
         }
+        cout << "Sum: " << sum << endl;
     }
-    
-    cout << sum << endl;
+    cout << endl;
 }
 
-void toLocateZero(int * massife, int n)
+void sorting(int * massife, int n)
 {
-    
+    cout << "sorting: " << endl;
+    for(int step = 0; step < n - 1; step++)
+    {
+        for(int i = 0; i < n - 1; i++)
+        {
+            if(massife[i] == 0 && massife[i + 1] != 0)
+            {
+                int next = massife[i + 1];
+                int current = massife[i];
+                
+                massife[i] = next;
+                massife[i + 1] = current;
+            }
+        }
+    }
 }
-
 
 int main()
 {
@@ -107,8 +114,8 @@ int main()
     print(massife, n);
     maxInModule(massife, n);
     sumOfElements(massife, n);
-    toLocateZero(massife, n);
-    
+    sorting(massife, n);
+    print(massife, n);
     
     delete [] massife;
     
