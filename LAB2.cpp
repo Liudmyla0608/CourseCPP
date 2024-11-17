@@ -1,23 +1,66 @@
 #include <iostream>
 using namespace std;
 
-int main (){
+//Відсортувати за зменшенням масив максимальних елементів стовпців матриці
+
+
+int ** createMatrix(int n , int m)
+{
+    int ** matrix = new int* [n];
+    for(int i = 0; i < n; i++)
+    {
+        matrix[i] = new int [m];
+    }
+    return matrix;
+}
+
+int * createMassife(int e)
+{
+    int * massife = new int[e];
+}
+
+void fullingMatrix()
+{
+    cout << "Full matrix" << endl;
     
+    for(int i = 0; i < n; i++)
+    
+}
+
+void determineEachColomnMaxElement()
+{
+    
+}
+
+void sortingMaxElements()
+{
+    
+}
+
+void printMatrix()
+{
+    cout << "matrix in its nature: " << endl;
+    
+}
+
+int main (){
     int n = 3;
     int m = 3;
-
     int e = 0;
     
+    int ** matrix = createMatrix(n, m);
+    int * massife = createMassife(e);
+    
+    fullingMatrix()
+    void printMatrix()
+
+
+ 
     int Massife[e];
-    
     int Matrix[n][m];
-    
     int max, min;
     int imax, imin;
-    
     imax = 0; imin = 0;
-   
-    
     cout << "Full matrix" << endl;
     
     for(int i = 0; i < n; i++)
@@ -29,9 +72,8 @@ int main (){
                
                 
             }
-            
-            
     cout << "matrix in its nature: ";
+    
     
     for(int i = 0; i < n; i++)
         {
@@ -41,6 +83,12 @@ int main (){
                 cout << Matrix[i][j] << " ";
             }
         }
+        
+        
+        
+    
+        
+        
         
         for( int j = 0; j < n; j++)
         {
@@ -59,15 +107,17 @@ int main (){
                 }
                 
             }
-            Massife[e] = max; e++;
             
-           
+            Massife[e] = max; e++;
         }
+        
         
         cout << endl;
         cout << "Massife e: ";
         for(int k = 0; k < e; k++)
         cout << Massife[k] << " ";
+        
+        
         
         
          cout << "sorting" << endl;
