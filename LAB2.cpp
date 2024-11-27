@@ -1,143 +1,86 @@
 #include <iostream>
 using namespace std;
 
-//Відсортувати за зменшенням масив максимальних елементів стовпців матриці
 
-
-int ** createMatrix(int n , int m)
-{
-    int ** matrix = new int* [n];
-    for(int i = 0; i < n; i++)
-    {
-        matrix[i] = new int [m];
+int** createMatrix(int n, int m) {
+    int** matrix = new int*[n];
+    for (int i = 0; i < n; i++) {
+        matrix[i] = new int[m];
     }
     return matrix;
 }
 
-int * createMassife(int e)
-{
-    int * massife = new int[e];
+
+int* createArray(int size) {
+    int* array = new int[size];
+    return array;
 }
 
-void fullingMatrix()
-{
-    cout << "Full matrix" << endl;
-    
-    for(int i = 0; i < n; i++)
-    
+
+void fillMatrix(int** matrix, int n, int m) {
+    cout << "Fill the matrix:" << endl;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << "Matrix[" << i << "][" << j << "] = ";
+            cin >> matrix[i][j];
+        }
+    }
 }
 
-void determineEachColomnMaxElement()
-{
-    
-}
 
-void sortingMaxElements()
-{
-    
-}
-
-void printMatrix()
-{
-    cout << "matrix in its nature: " << endl;
-    
-}
-
-int main (){
-    int n = 3;
-    int m = 3;
-    int e = 0;
-    
-    int ** matrix = createMatrix(n, m);
-    int * massife = createMassife(e);
-    
-    fullingMatrix()
-    void printMatrix()
-
-
- 
-    int Massife[e];
-    int Matrix[n][m];
-    int max, min;
-    int imax, imin;
-    imax = 0; imin = 0;
-    cout << "Full matrix" << endl;
-    
-    for(int i = 0; i < n; i++)
-        for(int j = 0; j < m; j++)
-            {
-                cout << "Matrix [" << i <<"] [" << j <<"] = ";
-                cin >> Matrix[i][j];
-                
-               
-                
-            }
-    cout << "matrix in its nature: ";
-    
-    
-    for(int i = 0; i < n; i++)
-        {
-            cout << endl;
-            for(int j = 0; j < m; j++)
-            {
-                cout << Matrix[i][j] << " ";
+void findColumnMaxima(int** matrix, int* maxima, int n, int m) {
+    for (int j = 0; j < m; j++) {
+        int max = matrix[0][j];
+        for (int i = 1; i < n; i++) {
+            if (matrix[i][j] > max) {
+                max = matrix[i][j];
             }
         }
-        
-        
-        
-    
-        
-        
-        
-        for( int j = 0; j < n; j++)
-        {
-            
-             max = Matrix[0][j];
-            for( int i = 0; i <= m; i++)
-            {
-                if( Matrix[i][j] > max)
-                {
-                    max = Matrix[i][j]; imax = i;
-                }
-                else
-                if( Matrix[i][j] < min)
-                {
-                    min = Matrix[i][j]; imin = i;
-                }
-                
-            }
-            
-            Massife[e] = max; e++;
-        }
-        
-        
-        cout << endl;
-        cout << "Massife e: ";
-        for(int k = 0; k < e; k++)
-        cout << Massife[k] << " ";
-        
-        
-        
-        
-         cout << "sorting" << endl;
-    
-    int a;
-    
-    for (int z = 1; z < n; z++)
-        for (int i = 0; i < n - z; i++)
-        {
-            if (Massife[i] < Massife[i + 1])
-            {
-                a = Massife[i];
-                Massife[i] = Massife[i + 1];
-               Massife[i + 1] = a;
-            }
-        }
-        
-    cout << "result: " << endl;
-    
-    for(int i = 0; i < n; i++)
-    cout << Massife[i] << " ";
+        maxima[j] = max;
+    }
+}
 
+
+void sortMaxElements(int* maxima, int m) {
+    for (int i = 0; i < m - 1; i++) {
+        for (int j = 0; j < m - i - 1; j++) {
+            if (maxima[j] < maxima[j + 1]) {
+                int temp = maxima[j];
+                maxima[j] = maxima[j + 1];
+                maxima[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+void printArray(int* array, int size, const string& description) {
+    cout << description << ": ";
+    for (int i = 0; i < size; i++) {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    int n, m;
+    cout << "Enter the dimensions of the matrix (n rows, m columns): ";
+    cin >> n >> m;
+
+    int** matrix = createMatrix(n, m);
+    int* maxima = createArray(m);
+
+    fillMatrix(matrix, n, m);
+    findColumnMaxima(matrix, maxima, n, m);
+    sortMaxElements(maxima, m);
+    printArray(maxima, m, "Sorted maximum elements of columns");
+
+
+    for (int i = 0; i < n; i++) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+    delete[] maxima;
+
+    return 0;
 }
