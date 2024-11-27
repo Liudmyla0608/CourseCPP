@@ -1,129 +1,104 @@
-//Перевірити, чи є задана матриця ортогональною
-
 #include <iostream>
 using namespace std;
 
-int e = 20;
-int q = 20;
-int n = 3;
-int m = 3;
-
-int MatrixA[3][3];
-int MatrixB[3][3];
-int MatrixC[3][3];
-
-int Mas[20];
-int Result[20];
+int n = 3; 
 
 
-void fullMatrixA() {
-  cout << "Enter matrix A elements: " << endl;
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      cout << "MatrixA[" << i << "][" << j << "]" << endl;
-      cin >> MatrixA[i][j];
+int** createMatrix(int size) {
+    int** matrix = new int*[size];
+    for (int i = 0; i < size; i++) {
+        matrix[i] = new int[size];
     }
-  }
+    return matrix;
 }
 
 
-void displayMatrixA()
-{
-  cout << endl << "Your matrix A:" << endl;
-  for (int i = 0; i < n; i++) {
-    cout << endl;
-    for (int j = 0; j < m; j++) {
-      cout << MatrixA[i][j] << " ";
+void fillMatrix(int** matrix, int size) {
+    cout << "Enter matrix elements:" << endl;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            cout << "Matrix[" << i << "][" << j << "]: ";
+            cin >> matrix[i][j];
+        }
     }
-  }
 }
 
-void matrixTransposition() {
-  cout << "transposed matrix:" << endl;
-  for (int i = 0; i < n; i++) {
-    cout << endl;
-    for (int j = 0; j < m; j++) {
-      cout << MatrixA[j][i] << " ";
-      MatrixB[i][j] = MatrixA[j][i];
+
+void displayMatrix(int** matrix, int size, const string& label) {
+    cout << label << ":" << endl;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
     }
-  }
-}
-void displayMatrixB() {
-  cout << endl << endl << "transposed matrix is matrix B:" << endl;
-  for (int k = 0; k < n; k++) {
-    cout << endl;
-    for (int l = 0; l < m; l++) {
-      cout << MatrixB[k][l] << " ";}
-  }
 }
 
-void multiplicationAB() {
-  cout << "multiplication both matrix A and B:" << endl;
 
-
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      MatrixC[i][j] = 0;
-      for (int k = 0; k < m; k++) {
-        MatrixC[i][j] += MatrixA[i][k] * MatrixB[k][j];
-      }
-      cout << MatrixC[i][j] << " ";
+int** transposeMatrix(int** matrix, int size) {
+    int** transposed = createMatrix(size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            transposed[j][i] = matrix[i][j];
+        }
     }
-    cout << endl;
-  }
+    return transposed;
 }
 
-void determineOrthogonal() {
-  cout << "the matrix is orthogonal or not?" << endl;
 
-
-  //if the matrix does not consist of zeros and ones - it is not orthogonal
-  for (int i = 0; i < n; i++) {
-    Mas[i] = MatrixC[i][i];
-    for (int j = 0; j < m; j++) {
-      if (MatrixC[i][j] != 0 && MatrixC[i][j] !=  1) {
-        Result[i] = 8; //8 = matrix is not orthogonal
-      }
-
+int** multiplyMatrices(int** matrixA, int** matrixB, int size) {
+    int** result = createMatrix(size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < size; k++) {
+                result[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
     }
-  }
-
-  //if the lateral diagonal is not one, it is not orthogonal
-  for (int i = 0; i < n; i++) {
-    if (Mas[i] != 1) {
-      Result[i] = 8; //8 = matrix is not orthogonal
-    }
-  }
-
-  //if the array is filled - it is not orthogonal
-  for (int i = 0; i < n; i++) {
-    if (!Result[i]) {
-      cout << "matrix is orthogonal" << endl;
-    }
-    else {
-      cout << "matrix is non-orthogonal" << endl;
-      break;
-    }
-  }
+    return result;
 }
 
+bool isOrthogonal(int** matrix, int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (i == j && matrix[i][j] != 1) return false;
+            if (i != j && matrix[i][j] != 0) return false;
+        }
+    }
+    return true;
+}
 
 int main() {
+    int n;
+    cout << "Enter the dimension of the matrix (n x n): ";
+    cin >> n;
 
+    int** matrixA = createMatrix(n);
+    fillMatrix(matrixA, n);
+    displayMatrix(matrixA, n, "Matrix A");
 
-  fullMatrixA();
-  displayMatrixA();
-  cout << endl << endl;
+    int** matrixB = transposeMatrix(matrixA, n);
+    displayMatrix(matrixB, n, "Transposed Matrix B");
 
-  matrixTransposition();
-  cout << endl << endl;
+    int** matrixC = multiplyMatrices(matrixA, matrixB, n);
+    displayMatrix(matrixC, n, "Matrix A * Transposed B");
 
-  displayMatrixB();
-  cout << endl << endl;
+    if (isOrthogonal(matrixC, n)) {
+        cout << "The matrix is orthogonal." << endl;
+    } else {
+        cout << "The matrix is not orthogonal." << endl;
+    }
 
-  multiplicationAB();
+  
+    for (int i = 0; i < n; i++) {
+        delete[] matrixA[i];
+        delete[] matrixB[i];
+        delete[] matrixC[i];
+    }
+    delete[] matrixA;
+    delete[] matrixB;
+    delete[] matrixC;
 
-  determineOrthogonal();
-
-  return 0;
+    return 0;
 }
