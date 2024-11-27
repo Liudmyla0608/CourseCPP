@@ -11,12 +11,6 @@ int** createMatrix(int n, int m) {
 }
 
 
-int* createArray(int size) {
-    int* array = new int[size];
-    return array;
-}
-
-
 void fillMatrix(int** matrix, int n, int m) {
     cout << "Fill the matrix:" << endl;
     for (int i = 0; i < n; i++) {
@@ -24,6 +18,17 @@ void fillMatrix(int** matrix, int n, int m) {
             cout << "Matrix[" << i << "][" << j << "] = ";
             cin >> matrix[i][j];
         }
+    }
+}
+
+
+void printMatrix(int** matrix, int n, int m) {
+    cout << "Matrix in its nature:" << endl;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
     }
 }
 
@@ -41,6 +46,15 @@ void findColumnMaxima(int** matrix, int* maxima, int n, int m) {
 }
 
 
+void printMaxima(int* maxima, int m) {
+    cout << "Maximum elements of each column before sorting: ";
+    for (int i = 0; i < m; i++) {
+        cout << maxima[i] << " ";
+    }
+    cout << endl;
+}
+
+
 void sortMaxElements(int* maxima, int m) {
     for (int i = 0; i < m - 1; i++) {
         for (int j = 0; j < m - i - 1; j++) {
@@ -54,10 +68,10 @@ void sortMaxElements(int* maxima, int m) {
 }
 
 
-void printArray(int* array, int size, const string& description) {
-    cout << description << ": ";
-    for (int i = 0; i < size; i++) {
-        cout << array[i] << " ";
+void printSortedMaxima(int* maxima, int m) {
+    cout << "Sorted maximum elements of columns: ";
+    for (int i = 0; i < m; i++) {
+        cout << maxima[i] << " ";
     }
     cout << endl;
 }
@@ -68,12 +82,14 @@ int main() {
     cin >> n >> m;
 
     int** matrix = createMatrix(n, m);
-    int* maxima = createArray(m);
+    int* maxima = new int[m];
 
     fillMatrix(matrix, n, m);
+    printMatrix(matrix, n, m);
     findColumnMaxima(matrix, maxima, n, m);
+    printMaxima(maxima, m);
     sortMaxElements(maxima, m);
-    printArray(maxima, m, "Sorted maximum elements of columns");
+    printSortedMaxima(maxima, m);
 
 
     for (int i = 0; i < n; i++) {
