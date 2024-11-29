@@ -7,6 +7,13 @@
 #include <cmath>
 using namespace std;
 
+#define USE_FLOAT 
+
+#ifdef USE_FLOAT
+typedef float num_type;
+#else
+typedef int num_type;
+#endif
 
 int * create(int n)
 {
