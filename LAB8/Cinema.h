@@ -1,88 +1,66 @@
 #ifndef CINEMA_H
 #define CINEMA_H
-using namespace std;
 #include <string>
+#include <vector>
+#include <algorithm>
 #include "Address.h"
-#include <iostream>
 #include "Film.h"
-
+#include <iostream>
 
 class Cinema {
-    string name;
+    std::string name;
     Address address;
     int year_of_establishment;
+    std::vector<Film> films;
 
-    int numFilms;
-    int capacity;
-    Film* films;
 public:
-    Cinema(string name, string city, string street, int houseNumber, int year_of_establishment, int capacity);
-    ~Cinema();
+    Cinema() : name(""), address(), year_of_establishment(0) {}
 
+    Cinema(std::string name, std::string city, std::string street, int houseNumber, int year_of_establishment)
+        : name(name), address(city, street, houseNumber), year_of_establishment(year_of_establishment) {}
 
-    inline string get_name() const { return name; }
-    inline string get_address() const { return address.get_full_address(); }
+    Cinema(const Cinema &other)
+        : name(other.name), address(other.address), year_of_establishment(other.year_of_establishment), films(other.films) {}
 
-
-    void addFilm(Film newFilm) {
-        if(numFilms < capacity) {
-            films[numFilms++] = newFilm;
+    Cinema &operator=(const Cinema &other) {
+        if (this != &other) {
+            name = other.name;
+            address = other.address;
+            year_of_establishment = other.year_of_establishment;
+            films = other.films;
         }
+        return *this;
     }
 
-    void remove_film(string title) {
-        for (int i = 0; i < numFilms; ++i) {
-            if (films[i].getTitle() == title) {
-                for (int j = i; j < numFilms - 1; ++j) {
-                    films[j] = films[j + 1];
-                }
-                --numFilms;
-                cout << "Film \"" << title << "\" removed." << endl;
-                return;
-            }
-        }
-        cout << "Film \"" << title << "\" not found." << endl;
+    ~Cinema() = default;
+
+    void addFilm(const Film &newFilm) {
+        films.push_back(newFilm);
     }
 
-
-    double get_percentage_of_kids_films() const {
-        if (numFilms == 0) return 0.0;
-
-        int kidsCount = 0;
-        for (int i = 0; i < numFilms; ++i) {
-            if (films[i].getAgeRestriction() <= 12) {
-                kidsCount++;
-            }
-        }
-        return (100.0 * kidsCount) / numFilms;
+    void removeFilm(const std::string &title) {
+        films.erase(std::remove_if(films.begin(), films.end(), [&title](const Film &f) { return f.getTitle() == title; }), films.end());
     }
 
-    Film get_longest_film() const {
-        if (numFilms == 0) {
-            cout << "No films available to find the longest one." << endl;
-            return Film(); // Повертаємо "порожній" фільм.
-        }
-
-        Film longest = films[0];
-        for (int i = 1; i < numFilms; ++i) {
-            if (films[i].getDuration() > longest.getDuration()) {
-                longest = films[i];
-            }
-        }
-        return longest;
+    double getAverageDuration() const {
+        if (films.empty()) return 0.0;
+        return std::accumulate(films.begin(), films.end(), 0.0, [](double sum, const Film &f) {
+                   return sum + f.getDuration();
+               }) /
+               films.size();
     }
 
-    double get_average_duration() const {
-        if (numFilms == 0) return 0.0;
-
-        int totalDuration = 0;
-        for (int i = 0; i < numFilms; ++i) {
-            totalDuration += films[i].getDuration();
-        }
-        return totalDuration / (numFilms * 1.0);
+    friend std::ostream &operator<<(std::ostream &os, const Cinema &cinema) {
+        os << cinema.name << " " << cinema.address << " " << cinema.year_of_establishment;
+        return os;
     }
 
+    friend std::istream &operator>>(std::istream &is, Cinema &cinema) {
+        is >> cinema.name >> cinema.address >> cinema.year_of_establishment;
+        return is;
+    }
 };
+#endif // CINEMA_H
 
 
 #endif // CINEMA_H
